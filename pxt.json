@@ -1,0 +1,21 @@
+{
+    "name": "OrbitLab_IOT",
+    "description": "",
+    "dependencies": {
+        "core": "*",
+        "radio": "*",
+        "microphone": "*"
+    },
+    "files": [
+        "OrbitIOT.ts",
+        "README.md"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+	"public": true,
+    "supportedTargets": [
+        "microbit"
+    ],
+    "preferredEditor": "blocksprj"
+}
