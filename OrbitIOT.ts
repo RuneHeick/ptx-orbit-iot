@@ -9,6 +9,10 @@ namespace Orbit_IoT {
     let cloud_connected: boolean = false
     let wifi_connected: boolean = false
 
+    const bus_holdback_time : number = 500
+    let last_cmd : number = input.runningTime()
+
+
     enum Commands {
         //% block="Name"
         Name = 1,
@@ -17,6 +21,14 @@ namespace Orbit_IoT {
         //% block="Text"
         Text = 3
     }      
+
+    function waitForFreeBus()
+    {
+        let now = input.runningTime()
+        if( (now-last_cmd) < bus_holdback_time)
+            basic.pause(bus_holdback_time - (now-last_cmd))
+        last_cmd = input.runningTime()
+    }
 
     // write AT command with CR+LF ending
     function sendAT(command: string, wait: number = 0) {
@@ -52,12 +64,13 @@ namespace Orbit_IoT {
             rx,
             baudrate
         )
+        waitForFreeBus()
         sendAT("AT+RESTORE", 1000) // restore to factory settings
         sendAT("AT+CWMODE=1") // set to STA mode
-        basic.pause(1000)
     }
 
     function connectWifi(ssid: string, pw: string) : boolean {
+        waitForFreeBus()
         sendAT("AT+CWJAP=\"" + ssid + "\",\"" + pw + "\"", 0) // connect to Wifi router
         wifi_connected = waitForResponse("WIFI GOT IP")
         return wifi_connected
@@ -67,6 +80,7 @@ namespace Orbit_IoT {
     {
         if(wifi_connected)
         {
+            waitForFreeBus()
             let cmd = "AT+CIPSTART=\"TCP\",\"" + endpoint + "\","+ port
             sendAT(cmd)
             cloud_connected = waitForResponse("CONNECT");
@@ -111,6 +125,8 @@ namespace Orbit_IoT {
     {
         if(cloud_connected)
         {
+            waitForFreeBus()
+
             let serial = control.deviceSerialNumber();
             let toSendStr = "{"
             toSendStr += "\"uid\":" + serial + ","
