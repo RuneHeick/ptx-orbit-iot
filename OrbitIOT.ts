@@ -54,6 +54,7 @@ namespace Orbit_IoT {
 
     function connectOrbitCloud() 
     {
+        basic.pause(500)
         let cmd = "AT+CIPSTART=\"TCP\",\"" + endpoint + "\","+ port
         sendAT(cmd)
         return waitForResponse("CONNECT")
