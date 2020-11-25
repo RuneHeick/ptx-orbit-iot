@@ -7,6 +7,7 @@ namespace Orbit_IoT {
     const port :string = "5000"
 
     let cloud_connected: boolean = false
+    let wifi_connected: boolean = false
 
     // write AT command with CR+LF ending
     function sendAT(command: string, wait: number = 0) {
@@ -66,16 +67,28 @@ namespace Orbit_IoT {
         if(cloud_connected == false)
         {
             setupESP8266(SerialPin.P8, SerialPin.P12, BaudRate.BaudRate115200)
-            if(connectWifi(wifi_ssid, wifi_pw) && connectOrbitCloud())
+            if(connectWifi(wifi_ssid, wifi_pw))
             {
-                cloud_connected = true;
+                wifi_connected = true
+                if(connectOrbitCloud())
+                    cloud_connected = true
             }
         }
     }
 
     //% block="Cloud Connected %state" weight=70
-    export function wifiState(state: boolean) : boolean {
+    export function CloudState(state: boolean) : boolean {
         if (cloud_connected == state) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+
+    //% block="Wifi Connected %state" weight=70
+    export function wifiState(state: boolean) : boolean {
+        if (wifi_connected == state) {
             return true
         }
         else {
