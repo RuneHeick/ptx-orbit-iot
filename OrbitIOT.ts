@@ -13,16 +13,6 @@ namespace Orbit_IoT {
     let additional_holdback_time : number = 0
     let last_cmd_time : number = input.runningTime()
 
-
-    enum Commands {
-        //% block="Name"
-        Name = 1,
-        //% block="Number"
-        Number = 2,
-        //% block="Text"
-        Text = 3
-    }      
-
     function waitForFreeBus()
     {
         basic.pause(bus_holdback_time+additional_holdback_time)
@@ -95,7 +85,7 @@ namespace Orbit_IoT {
         return cloud_connected;
     }
 
-    //% block="Setup OrbitLab Cloud"
+    //% block="setup orbitLab cloud"
     export function setupForCloud()
     {
         if(cloud_connected == false)
@@ -108,8 +98,8 @@ namespace Orbit_IoT {
         }
     }
 
-    //% block="Cloud Connected %state" weight=70
-    export function CloudState(state: boolean) : boolean {
+    //% block="cloud connected %state" weight=70
+    export function cloudState(state: boolean) : boolean {
         if (cloud_connected == state) {
             return true
         }
@@ -118,7 +108,7 @@ namespace Orbit_IoT {
         }
     }
 
-    //% block="Wifi Connected %state" weight=70
+    //% block="wifi connected %state" weight=70
     export function wifiState(state: boolean) : boolean {
         if (wifi_connected == state) {
             return true
@@ -147,20 +137,20 @@ namespace Orbit_IoT {
         }
     }
 
-    //% block="Send group name %name" weight=5
-    export function SendNameCmd(name: string)
+    //% block="send group name %name" weight=5
+    export function sendNameCmd(name: string)
     {
         sendToCloud("name", "\""+name+"\"")
     }
 
-    //% block="Send a number %value" weight=4
-    export function SendNumberCmd(value: number)
+    //% block="send a number %value" weight=4
+    export function sendNumberCmd(value: number)
     {
         sendToCloud("number", value.toString())
     }
 
-    //% block="Send text %text" weight=4
-    export function SendTextCmd(text: string)
+    //% block="send text %text" weight=4
+    export function sendTextCmd(text: string)
     {
         sendToCloud("text", text)
     }
