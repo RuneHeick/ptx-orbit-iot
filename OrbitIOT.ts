@@ -9,7 +9,7 @@ namespace Orbit_IoT {
     let cloud_connected: boolean = false
     let wifi_connected: boolean = false
 
-    const bus_holdback_time : number = 500
+    const bus_holdback_time : number = 2000
     let last_cmd : number = input.runningTime()
 
 
