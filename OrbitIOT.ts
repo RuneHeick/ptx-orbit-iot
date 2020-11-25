@@ -9,8 +9,7 @@ namespace Orbit_IoT {
     let cloud_connected: boolean = false
     let wifi_connected: boolean = false
 
-    const bus_holdback_time : number = 2000
-    let cmd_additional_wait : number = 0
+    const bus_holdback_time : number = 500
     let last_cmd_time : number = input.runningTime()
 
 
@@ -25,13 +24,7 @@ namespace Orbit_IoT {
 
     function waitForFreeBus()
     {
-        basic.pause(3000)
-        //let waittime = cmd_additional_wait + bus_holdback_time 
-        //let now = input.runningTime()
-        //if( (now-last_cmd_time) < waittime)
-        //    basic.pause(waittime - (now-last_cmd_time))
-        //last_cmd_time = input.runningTime()
-        //cmd_additional_wait = 0
+        basic.pause(bus_holdback_time)
     }
 
     // write AT command with CR+LF ending
@@ -77,7 +70,6 @@ namespace Orbit_IoT {
         waitForFreeBus()
         sendAT("AT+CWJAP=\"" + ssid + "\",\"" + pw + "\"", 0) // connect to Wifi router
         wifi_connected = waitForResponse("WIFI GOT IP")
-        cmd_additional_wait = 2500
         return wifi_connected
     }
 
