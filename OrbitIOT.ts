@@ -49,6 +49,7 @@ namespace Orbit_IoT {
             else if (input.runningTime() - time > timeout) {
                 break
             }
+            basic.pause(20)
         }
         return result
     }
