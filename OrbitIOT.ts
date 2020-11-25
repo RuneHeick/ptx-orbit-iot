@@ -69,6 +69,7 @@ namespace Orbit_IoT {
         waitForFreeBus()
         sendAT("AT+CWJAP=\"" + ssid + "\",\"" + pw + "\"", 0) // connect to Wifi router
         wifi_connected = waitForResponse("WIFI GOT IP")
+        requireWait(2000)
         return wifi_connected
     }
 
@@ -152,7 +153,7 @@ namespace Orbit_IoT {
     //% block="send text %text" weight=4
     export function sendTextCmd(text: string)
     {
-        sendToCloud("text", text)
+        sendToCloud("text", "\""+text+"\"")
     }
 
 }
