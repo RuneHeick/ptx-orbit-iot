@@ -72,13 +72,14 @@ namespace Orbit_IoT {
         waitForFreeBus()
         sendAT("AT+RESTORE", 1000) // restore to factory settings
         sendAT("AT+CWMODE=1") // set to STA mode
+        requireWait(500)
     }
 
     function connectWifi(ssid: string, pw: string) : boolean {
         waitForFreeBus()
         sendAT("AT+CWJAP=\"" + ssid + "\",\"" + pw + "\"", 0) // connect to Wifi router
         wifi_connected = waitForResponse("WIFI GOT IP")
-        requireWait(3000)
+        requireWait(2500)
         return wifi_connected
     }
 
