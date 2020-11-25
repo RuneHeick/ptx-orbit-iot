@@ -9,6 +9,15 @@ namespace Orbit_IoT {
     let cloud_connected: boolean = false
     let wifi_connected: boolean = false
 
+    enum Commands {
+        //% block="Name"
+        Name = 1,
+        //% block="Number"
+        Number = 2,
+        //% block="Text"
+        Text = 3
+    }      
+
     // write AT command with CR+LF ending
     function sendAT(command: string, wait: number = 0) {
         serial.writeString(command + "\u000D\u000A")
@@ -50,15 +59,19 @@ namespace Orbit_IoT {
 
     function connectWifi(ssid: string, pw: string) : boolean {
         sendAT("AT+CWJAP=\"" + ssid + "\",\"" + pw + "\"", 0) // connect to Wifi router
-        return waitForResponse("WIFI GOT IP")
+        wifi_connected = waitForResponse("WIFI GOT IP")
+        return wifi_connected
     }
 
-    function connectOrbitCloud() 
+    function connectOrbitCloud() :boolean
     {
-        basic.pause(500)
-        let cmd = "AT+CIPSTART=\"TCP\",\"" + endpoint + "\","+ port
-        sendAT(cmd)
-        return waitForResponse("CONNECT")
+        if(wifi_connected)
+        {
+            let cmd = "AT+CIPSTART=\"TCP\",\"" + endpoint + "\","+ port
+            sendAT(cmd)
+            cloud_connected = waitForResponse("CONNECT");
+        }
+        return cloud_connected;
     }
 
     //% block="Setup OrbitLab Cloud"
@@ -69,9 +82,7 @@ namespace Orbit_IoT {
             setupESP8266(SerialPin.P8, SerialPin.P12, BaudRate.BaudRate115200)
             if(connectWifi(wifi_ssid, wifi_pw))
             {
-                wifi_connected = true
-                if(connectOrbitCloud())
-                    cloud_connected = true
+                connectOrbitCloud()
             }
         }
     }
@@ -96,6 +107,39 @@ namespace Orbit_IoT {
         }
     }
 
+    function sendToCloud(cmd: string, value: string)
+    {
+        if(cloud_connected)
+        {
+            let serial = control.deviceSerialNumber();
+            let toSendStr = "{"
+            toSendStr += "\"uid\":" + serial + ","
+            toSendStr += "\"cmd\":\""+cmd+"\","
+            toSendStr += "\"payload\":" + value
+            toSendStr += "}"
 
+            sendAT("AT+CIPSEND=" + (toSendStr.length + 2), 100)
+            sendAT(toSendStr, 100) // upload data
+            waitForResponse("SEND OK");
+        }
+    }
+
+    //% block="Send group name %name" weight=5
+    export function SendNameCmd(name: string)
+    {
+        sendToCloud("name", "\""+name+"\"")
+    }
+
+    //% block="Send a number %value" weight=5
+    export function SendNumberCmd(value: number)
+    {
+        sendToCloud("number", value.toString())
+    }
+
+    //% block="Send text %text" weight=5
+    export function SendTextCmd(text: string)
+    {
+        sendToCloud("text", text)
+    }
 
 }
