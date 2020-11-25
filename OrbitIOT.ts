@@ -25,12 +25,13 @@ namespace Orbit_IoT {
 
     function waitForFreeBus()
     {
-        let waittime = cmd_additional_wait + bus_holdback_time 
-        let now = input.runningTime()
-        if( (now-last_cmd_time) < waittime)
-            basic.pause(waittime - (now-last_cmd_time))
-        last_cmd_time = input.runningTime()
-        cmd_additional_wait = 0
+        basic.pause(3000)
+        //let waittime = cmd_additional_wait + bus_holdback_time 
+        //let now = input.runningTime()
+        //if( (now-last_cmd_time) < waittime)
+        //    basic.pause(waittime - (now-last_cmd_time))
+        //last_cmd_time = input.runningTime()
+        //cmd_additional_wait = 0
     }
 
     // write AT command with CR+LF ending
