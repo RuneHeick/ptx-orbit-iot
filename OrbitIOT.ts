@@ -130,13 +130,13 @@ namespace Orbit_IoT {
         sendToCloud("name", "\""+name+"\"")
     }
 
-    //% block="Send a number %value" weight=5
+    //% block="Send a number %value" weight=4
     export function SendNumberCmd(value: number)
     {
         sendToCloud("number", value.toString())
     }
 
-    //% block="Send text %text" weight=5
+    //% block="Send text %text" weight=4
     export function SendTextCmd(text: string)
     {
         sendToCloud("text", text)
