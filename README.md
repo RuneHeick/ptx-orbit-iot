@@ -1,5 +1,5 @@
 
-> Open this page at [https://runeheick.github.io/pxt-test/](https://runeheick.github.io/pxt-test/)
+> Open this page at [https://github.com/ORBIT-Lab/ptx-orbit-iot)
 
 ## Use as Extension
 
@@ -17,13 +17,6 @@ To edit this repository in MakeCode.
 * open [https://makecode.microbit.org/](https://makecode.microbit.org/)
 * click on **Import** then click on **Import URL**
 * paste **https://github.com/ORBIT-Lab/ptx-orbit-iot** and click import
-
-## Blocks preview
-
-This image shows the blocks code from the last commit in master.
-This image may take a few minutes to refresh.
-
-![A rendered view of the blocks](https://github.com/ORBIT-Lab/ptx-orbit-iot/raw/master/.github/makecode/blocks.png)
 
 #### Metadata (used for search, rendering)
 
