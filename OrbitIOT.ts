@@ -9,7 +9,7 @@ namespace Orbit_IoT {
     let cloud_connected: boolean = false
     let wifi_connected: boolean = false
 
-    const bus_holdback_time : number = 500
+    const bus_holdback_time : number = 2000
     let last_cmd_time : number = input.runningTime()
 
 
@@ -71,7 +71,6 @@ namespace Orbit_IoT {
         waitForFreeBus()
         sendAT("AT+CWJAP=\"" + ssid + "\",\"" + pw + "\"", 0) // connect to Wifi router
         wifi_connected = waitForResponse("WIFI GOT IP")
-        basic.pause(2000)
         return wifi_connected
     }
 
