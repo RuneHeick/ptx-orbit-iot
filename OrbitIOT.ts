@@ -71,6 +71,7 @@ namespace Orbit_IoT {
         waitForFreeBus()
         sendAT("AT+CWJAP=\"" + ssid + "\",\"" + pw + "\"", 0) // connect to Wifi router
         wifi_connected = waitForResponse("WIFI GOT IP")
+        basic.pause(2000)
         return wifi_connected
     }
 
