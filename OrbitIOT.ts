@@ -152,7 +152,7 @@ namespace Orbit_IoT {
     //% block="send text %text" weight=4
     export function sendTextCmd(text: string)
     {
-        sendToCloud("text", text)
+        sendToCloud("text", "\""+text+"\"")
     }
 
 }
